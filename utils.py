@@ -6,6 +6,7 @@ third_row = np.array(['4','5','6','-'], dtype=object)
 fourth_row = np.array(['1','2','3','+'], dtype=object)
 fifth_row = np.array(['0','.','='], dtype=object)
 operaction_symbols = np.array(['+','-','x','/'], dtype=object)
+control_symbols = np.array(['AC','+/-','%'], dtype=object)
 
 def get_zero() -> str:
    """ Return the zero """
@@ -26,6 +27,13 @@ def is_number(value) -> bool:
 def get_operation_symbol(value) -> bool:
     """Return the operation symbol"""
     if value in operaction_symbols:
+        return True
+    else:
+        return False
+
+def get_control_symbol(value) -> bool:
+    """Return the control symbol"""
+    if value in control_symbols:
         return True
     else:
         return False

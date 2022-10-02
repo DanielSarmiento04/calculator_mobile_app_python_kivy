@@ -4,7 +4,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from utils import get_grid, get_zero, is_number, get_operation_symbol
+from utils import get_grid, get_zero, is_number, get_operation_symbol, get_control_symbol
 
 class Calculator(App):
     def build(self):
@@ -23,8 +23,12 @@ class Calculator(App):
                 background_color = (0.5, 0.5, 0.5, 1)
                 if get_operation_symbol(item):    
                     # put the operation buttons in orange color 
-                    background_color = (1, 0.5, 0, 1)
-                button = Button(text=item, font_size=40, background_color=background_color)    
+                    background_color = "#FFAA00"
+                button = Button(text=item, font_size=40, 
+                            background_color=background_color, 
+                            bold=True,
+                            background_normal='', # remove the default background_color of the button when pressed       
+                            )    
                 button.bind(on_press=self.callback_for_button)
                 # button.center = self.window.center
                 self.window.add_widget(button)  
@@ -33,13 +37,16 @@ class Calculator(App):
 
     def callback_for_button(self, instance):
         """ Callback for button press """
-        # change the test when startes with 0
-        if instance.text == get_zero() and (not get_operation_symbol(instance.text)):#and len(self.result_label.text) == 1:
-            print(2)
+        # When the first number is pressed, change the result_label,
+        # separe the number from the operation symbol and the control symbol
+        if self.result_label.text == "0" and (not get_operation_symbol(instance.text)) and not get_control_symbol(instance.text):
+            print("First number pressed")
             self.result_label.text = instance.text
-        elif not get_operation_symbol(instance.text):
-            print(3)
-            self.result_label.text += instance.text            
+        # When press another number, add the number to the result_label
+        elif self.result_label.text != "0" and (not get_operation_symbol(instance.text)) and not get_control_symbol(instance.text):
+            self.result_label.text += instance.text
+        elif get_operation_symbol(instance.text):
+            pass
 
 
 Calculator().run()
