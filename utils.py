@@ -10,7 +10,9 @@ control_symbols = np.array(['AC','+/-','%'], dtype=object)
 special_symbols = np.array([',','='], dtype=object)
 
 def verify_special_symbol(value) -> bool:
-    """Return the special symbol"""
+    """Return the special symbol \n
+        special symbol => ['\t,\t',\t'\t=\t'], dtype=object
+    """
     if value in special_symbols:
         return True
     else:
@@ -33,14 +35,18 @@ def is_number(value) -> bool:
         return False
 
 def verify_operation_symbol(value) -> bool:
-    """Return the operation symbol"""
+    """Return the operation symbol \n
+        operation symbol => ['+'\t,\t'-'\t,\t'x'\t,\t'/'], dtype=object
+    """
     if value in operaction_symbols:
         return True
     else:
         return False
 
 def verify_control_symbol(value) -> bool:
-    """Return the control symbol"""
+    """Return the control symbol\n
+        control symbol => ['AC',\t'+/-'\t,\t'%'], dtype=object
+    """
     if value in control_symbols:
         return True
     else:
