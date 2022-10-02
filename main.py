@@ -34,10 +34,10 @@ class Calculator(App):
     def callback_for_button(self, instance):
         """ Callback for button press """
         # change the test when startes with 0
-        if instance.text != "0" and (not get_operation_symbol(instance.text)):
+        if instance.text == get_zero() and (not get_operation_symbol(instance.text)):#and len(self.result_label.text) == 1:
             print(2)
             self.result_label.text = instance.text
-        elif get_operation_symbol(instance.text):
+        elif not get_operation_symbol(instance.text):
             print(3)
             self.result_label.text += instance.text            
 
