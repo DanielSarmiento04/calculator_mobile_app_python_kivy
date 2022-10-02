@@ -15,6 +15,8 @@ class Calculator(App):
         self.result_label = Label(text="0", font_size=40, size_hint=(1, .5), halign="right", valign="top")
         self.window.add_widget(self.result_label)
         
+        # create a axuiliary variable to put the buttons in the grid
+        self.aux_result_variable = ""
         # Add a button
         grid_content = get_grid()
         for row in grid_content:
@@ -46,7 +48,7 @@ class Calculator(App):
             print("First number pressed")
             self.result_label.text = instance.text
         # When press another number, add the number to the result_label
-        elif self.result_label.text != "0" and (not verify_operation_symbol(instance.text)) and not verify_control_symbol(instance.text):
+        elif self.result_label.text != "0" and (not verify_operation_symbol(instance.text)) and not verify_control_symbol(instance.text)  and not verify_special_symbol(instance.text):
             print('Another number pressed and comma')
             self.result_label.text += instance.text
         elif verify_control_symbol(instance.text):
@@ -62,8 +64,14 @@ class Calculator(App):
                 self.result_label.text = str(float(self.result_label.text)/100)
 
 
-        elif verify_operation_symbol(instance.text):
-            pass
+        elif verify_special_symbol(instance.text):
+            print('Special symbol pressed')
+            if instance.text == ",":
+                # Verify if the number already has a comma if not add only one
+                if not "," in self.result_label.text:
+                    self.result_label.text += instance.text
+            elif instance.text == "=":
+                self.result_label.text = str(eval(self.result_label.text))
 
 
 Calculator().run()
