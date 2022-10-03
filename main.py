@@ -1,29 +1,33 @@
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from utils import get_grid, get_zero, is_number, verify_operation_symbol, verify_control_symbol, verify_special_symbol
+from kivy.uix.boxlayout import BoxLayout
 
 class Calculator(App):
     def build(self):
-        self.window = GridLayout()
-        # put the number of columns
-        self.window.cols = 4
+        # Create the main layout with numbers and operations and the result label
+        self.window =  BoxLayout(orientation='vertical')
         #put the result label in the first row and extend it to 4 columns
-        self.result_label = Label(text="0", font_size=40, size_hint=(1, .5), halign="right", valign="top")
-        self.window.add_widget(self.result_label)
-        
+        self.result_label = Label(text="0", font_size=40,  halign="right", valign="center", size_hint_y = 0.1, size_hint_x = 1.5)
+        # Add the result label to the main layout
+        self.window.add_widget(self.result_label,)
         # create a axuiliary variable to put the buttons in the grid
         self.aux_result_variable = ""
+        # Create the grid with the buttons
+        self.grid_buttons = GridLayout(cols=4, size_hint=(1, .4), spacing=3, padding=3)
         # Add a button
         grid_content = get_grid()
-        for row in grid_content:
+        # add the first row to the penultimate row
+        for row in grid_content[0:]:
             for item in row:
                 # set gray color for the buttons
                 background_color = (0.5, 0.5, 0.5, 1)
-                if verify_operation_symbol(item):    
+                if verify_control_symbol(item):
+                    background_color = "#525F60"
+                elif verify_operation_symbol(item)  :    
                     # Put the operation buttons in orange color 
                     background_color = "#FFAA00"
                 
@@ -36,8 +40,8 @@ class Calculator(App):
                             )    
                 button.bind(on_press=self.callback_for_button)
                 # add the button to the window
-                self.window.add_widget(button)  
-
+                self.grid_buttons.add_widget(button)  
+        self.window.add_widget(self.grid_buttons)
         return self.window
 
     def callback_for_button(self, instance):

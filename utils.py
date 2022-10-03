@@ -12,7 +12,7 @@ special_symbols = np.array([',','='], dtype=object)
 def verify_special_symbol(value) -> bool:
     """Return the special symbol \n
         special symbol => ['\t,\t',\t'\t=\t'], dtype=object
-    """
+    """ 
     if value in special_symbols:
         return True
     else:
