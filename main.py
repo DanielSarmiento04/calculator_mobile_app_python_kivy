@@ -3,7 +3,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from utils import get_grid, get_zero, is_number, verify_operation_symbol, verify_control_symbol, verify_special_symbol
+from utils import get_grid, get_zero, is_number, verify_operation_symbol, verify_control_symbol, verify_special_symbol, operaction_symbols
 from kivy.uix.boxlayout import BoxLayout
 
 class Calculator(App):
@@ -79,7 +79,7 @@ class Calculator(App):
                 self.result_label.text = str(float(self.result_label.text)/100)
                 self.aux_result_variable = self.result_label.text
 
-        elif verify_operation_symbol(instance.text):
+        elif verify_operation_symbol(instance.text) and (not self.aux_result_variable[-1] in operaction_symbols):
             print('Operation symbol pressed')
             # When the opreation symbol is pressed, add the opreation to the aux_result_variable and refresh the result_label
             if instance.text == "+":
@@ -108,5 +108,7 @@ class Calculator(App):
                 self.result_label.text = str(eval(self.aux_result_variable)).replace(".", ",")
                 self.aux_result_variable = self.result_label.text.replace(",", ".")
 
+
+        print(self.aux_result_variable, self.aux_result_variable[-1], self.aux_result_variable[-1] in operaction_symbols)
 
 Calculator().run()
