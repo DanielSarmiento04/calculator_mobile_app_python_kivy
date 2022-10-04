@@ -16,18 +16,18 @@ import numpy as np
 class Calculator(App):
     def build(self):
         # Create the main layout with numbers and operations and the result label
-        self.window =  BoxLayout(orientation='vertical', padding=3,)
+        self.window =  BoxLayout(orientation='vertical', )
         # put in the center of the screen
         self.window.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
         
         #put the result label in the first row and extend it to 4 columns
-        self.result_label = Label(text="0", font_size=40,  halign="right", valign="center", size_hint_y = 0.1, size_hint_x = 1.5)
+        self.result_label = Label(text="0", font_size=80,  halign="right", valign="center", size_hint_y = 0.1, size_hint_x = 1.5)
         # Add the result label to the main layout
         self.window.add_widget(self.result_label,)
         # create a axuiliary variable to put the buttons in the grid
         self.aux_result_variable = ""
         # Create the grid with the buttons
-        self.grid_buttons = GridLayout(cols=4, size_hint=(1, .4), spacing=3, padding=3)
+        self.grid_buttons = GridLayout(cols=4, size_hint=(1, .4), )
         # Add a button
         grid_content = get_grid()
         # add the first row to the penultimate row
@@ -123,6 +123,6 @@ class Calculator(App):
                 self.aux_result_variable = self.result_label.text.replace(",", ".")
 
 
-        print(self.aux_result_variable, self.aux_result_variable[-1], self.aux_result_variable[-1] in operaction_symbols)
+        # print(self.aux_result_variable, self.aux_result_variable[-1], self.aux_result_variable[-1] in operaction_symbols)
 
 Calculator().run()

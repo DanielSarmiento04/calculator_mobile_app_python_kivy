@@ -59,7 +59,7 @@ def verify_control_symbol(value) -> bool:
 
 def configure_grid_layout(self,  grid_row_content:np.array, cols:int=4):
     """ This method configure a default grid layout with the content of the grid_row_content """
-    grid = GridLayout(cols=cols, size_hint=(1.001, .1), spacing=3, padding=3)
+    grid = GridLayout(cols=cols, size_hint=(1.001, .1), )
             
     for item in grid_row_content:
         #  set gray color for the buttons

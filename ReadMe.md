@@ -31,3 +31,8 @@ Version =  3.0-beta
 ```bash
     python main.py
 ```
+
+
+Compare the result with the calculator app in macos
+<!--  -->
+<img src="imgs/layout.png" style="max-width:500px">
