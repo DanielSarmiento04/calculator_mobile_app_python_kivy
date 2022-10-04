@@ -3,13 +3,23 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
-from utils import get_grid, get_zero, is_number, verify_operation_symbol, verify_control_symbol, verify_special_symbol, operaction_symbols
+from utils import (get_grid, 
+                    verify_operation_symbol, 
+                    verify_control_symbol, 
+                    verify_special_symbol, 
+                    operaction_symbols, 
+                    configure_grid_layout,
+                    configure_button_layout)
 from kivy.uix.boxlayout import BoxLayout
+import numpy as np
 
 class Calculator(App):
     def build(self):
         # Create the main layout with numbers and operations and the result label
-        self.window =  BoxLayout(orientation='vertical')
+        self.window =  BoxLayout(orientation='vertical', padding=3,)
+        # put in the center of the screen
+        self.window.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        
         #put the result label in the first row and extend it to 4 columns
         self.result_label = Label(text="0", font_size=40,  halign="right", valign="center", size_hint_y = 0.1, size_hint_x = 1.5)
         # Add the result label to the main layout
@@ -21,27 +31,31 @@ class Calculator(App):
         # Add a button
         grid_content = get_grid()
         # add the first row to the penultimate row
-        for row in grid_content[0:]:
+        for row in grid_content[0:-1]:
+            # button_grid_layout = configure_grid_layout(self, row, cols=1)
+            # self.grid_buttons.add_widget(button_grid_layout)
             for item in row:
-                # set gray color for the buttons
                 background_color = (0.5, 0.5, 0.5, 1)
+                size_hint_x = 1
                 if verify_control_symbol(item):
                     background_color = "#525F60"
-                elif verify_operation_symbol(item)  :    
+                elif verify_operation_symbol(item):    
                     # Put the operation buttons in orange color 
                     background_color = "#FFAA00"
+
+                if item == "0":
+                    # Put the button 0 in the first column of the last row
+                    size_hint_x = 2
                 
                 # Create the button 
-                button = Button(text=item, font_size=40, 
-                            background_color=background_color, 
-                            bold=True,
-                            # normalize the bacground color
-                            background_normal='', 
-                            )    
-                button.bind(on_press=self.callback_for_button)
+                button = configure_button_layout(self, item, size_hint_x, 1, 40, background_color)
                 # add the button to the window
                 self.grid_buttons.add_widget(button)  
+
         self.window.add_widget(self.grid_buttons)
+        self.last_button = configure_grid_layout(self, grid_content[-1])
+        self.window.add_widget(self.last_button)
+
         return self.window
 
     def callback_for_button(self, instance):

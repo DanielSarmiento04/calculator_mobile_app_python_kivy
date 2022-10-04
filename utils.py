@@ -1,4 +1,8 @@
 import numpy as np
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+
 
 first_row = np.array(['AC',"+/-","%","/"], dtype=object)
 second_row = np.array(['7','8','9','x'], dtype=object)
@@ -51,3 +55,42 @@ def verify_control_symbol(value) -> bool:
         return True
     else:
         return False
+
+
+def configure_grid_layout(self,  grid_row_content:np.array, cols:int=4):
+    """ This method configure a default grid layout with the content of the grid_row_content """
+    grid = GridLayout(cols=cols, size_hint=(1.001, .1), spacing=3, padding=3)
+            
+    for item in grid_row_content:
+        #  set gray color for the buttons
+        print(item)
+        background_color = (0.5, 0.5, 0.5, 1)
+        size_hint_x = 1
+        if verify_control_symbol(item):
+            background_color = "#525F60"
+        elif verify_operation_symbol(item) or item == '=':   
+            # Put the operation buttons in orange color 
+            background_color = "#FFAA00"
+        if item == "0":
+            # Put the button 0 in the first column of the last row
+            size_hint_x = 2
+        # Create the button 
+        button = configure_button_layout(self, item, size_hint_x, 1, 40, background_color)
+        grid.add_widget(button)
+    
+    return grid
+
+
+def configure_button_layout(self, text:str, size_hint_x:float=1, size_hint_y:float=1, font_size:int=40, background_color:str='') -> Button:
+    """ This method configure a default button layout with the content of the text """
+    # Create the buttons
+    button = Button(text=text, font_size=font_size, 
+                    background_color=background_color, 
+                    bold=True,
+                    # normalize the bacground color
+                    background_normal='', 
+                    size_hint_x=size_hint_x,
+                    size_hint_y=size_hint_y
+                    )    
+    button.bind(on_press=self.callback_for_button)
+    return button
